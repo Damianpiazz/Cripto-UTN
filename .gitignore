@@ -1,0 +1,10 @@
+# Entorno
+/env
+
+# Cache
+__pycache__/
+
+# Directorios Generados
+/codificado
+/planillas
+/decodificado
