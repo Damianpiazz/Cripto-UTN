@@ -1,114 +1,138 @@
-# Criptografia-Modular
+# 🧩 Cripto-UTN
 
-## Storytelling y Contexto Histórico
+Este proyecto implementa distintas **técnicas de compresión de texto**, incluyendo **Shannon-Fano**, **Huffman** y **Lempel-Ziv (LZ77)**.  
+Permite analizar archivos, calcular información estadística de los símbolos y generar resultados **codificados, decodificados y reportes en Excel**.
 
-Los sumergibles Tipo VII alemanes, desplazaban en inmersión 871 toneladas, con 66.6 metros de eslora y 6.2 metros de manga. Se sumergían hasta 280 metros y estaban armados con 5 tubos lanzatorpedos de 533 mm, cargando 14 torpedos o 39 minas. Contaban con cañones de cubierta y antiaéreos, motores diésel de 2800-3200 cv y motores eléctricos de 750 cv, alcanzando 17.7 nudos en superficie y 7.6 nudos sumergidos. Con 707 unidades construidas entre 1936 y 1944, el Tipo VII fue clave en la Kriegsmarine alemana en el Atlántico Norte.
+---
 
-Era un atardecer de septiembre de 1942, cuando el sumergible U-573 navegaba en superficie y fue sorprendido por un avión de la Royal Air Force. Tras una inmersión apresurada y daños parciales, logró evadir al atacante y enviar un mensaje encriptado de emergencia solicitando ayuda. Este mensaje, interceptado por fuerzas aliadas, debía ser descifrado rápidamente para evitar la pérdida de información crítica.
+## 📋 Requisitos
 
-El servicio de inteligencia inglés pudo capturar documentación útil que facilita el descifrado. La misión: analizar y descifrar el mensaje antes de que venza su plazo de vigencia.
+- **Python 3.10 o superior**
+- Dependencias listadas en `requirements.txt`
 
-## Requisitos
+Instalación de dependencias:
 
-* Python 3.9 o superior
-* Archivo `requirements.txt` con las dependencias del proyecto
-
-## Instalación y Entorno Virtual
-
-1. Crear un entorno virtual:
-
-### Windows (CMD)
-
-```
-python -m venv venv
-venv\Scripts\activate.bat
-```
-
-### Windows (PowerShell)
-
-```
-python -m venv venv
-venv\Scripts\Activate.ps1
-```
-
-### Linux / macOS
-
-```
-python3 -m venv venv
-source venv/bin/activate
-```
-
-2. Instalar dependencias desde `requirements.txt`:
-
-```
+```bash
 pip install -r requirements.txt
 ```
 
-## Configuración
+---
 
-El archivo `config.json` debe contener:
+## ⚙️ Configuración del Entorno (Windows)
 
-```json
-{
-  "tabla": { "0": "9", "1": "8", ... },
-  "b": 375839,
-  "datos_descubiertos": { "H": "'", "S": "Ñ", "P": "3" },
-  "mensaje_encriptado": "BYC2YC1'V#J1RKQ1 Y#1QÑ VC13.V6YZ2V1Q#1QZU.J3 .2V11"
-}
+### 1. Abrir PowerShell o CMD y navegar a la carpeta del proyecto:
+```powershell
+cd C:\ruta\a\tu\proyecto
 ```
 
-Opcionalmente se puede agregar una semilla:
-
-```json
-"semilla": 7
+### 2. Crear un entorno virtual:
+```powershell
+python -m venv env
 ```
 
-## Ejecución
-
-Activar el entorno virtual y ejecutar el script principal pasando el archivo de configuración:
-
-```
-python main.py -c config.json
+### 3. Activar el entorno:
+**PowerShell:**
+```powershell
+.\env\Scripts\Activate.ps1
 ```
 
-La salida mostrará:
-
-* Tabla de símbolos utilizada
-* Mensaje encriptado y desencriptado
-* Semilla y su inverso multiplicativo (si se calculó)
-
-## Tablas de Asignación de Símbolos Capturadas
-
-```
-A B C D E F G H I J K L M N Ñ  => 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14
-O P Q R S T U V W X Y Z ! @    => 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29
-# $ % * ( ) - + / & : ; , . ¿    => 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44
-? "  ́ [ ] 0 1 2 3 4 5 6 7 8 9 => 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59
-Á É Í Ó Ú °                        => 60 61 62 63 64 65
+**CMD:**
+```cmd
+.\env\Scripts\activate.bat
 ```
 
-### Símbolos Descubiertos
-
-| Símbolo Original | Encriptado |
-| ---------------- | ---------- |
-| U                | @          |
-| S                | B          |
-| P                | 8          |
-
-### Fórmulas de Encriptación Detectadas
-
-```
-Y = a.X + 375600
-Y = a.X + 375836
-Y = a.X + 300050
+### 4. Instalar dependencias:
+```powershell
+pip install --upgrade pip
+pip install -r requirements.txt
 ```
 
-## Mensaje de Emergencia Enviado por el U-573
+### 5. Desactivar el entorno:
+```powershell
+deactivate
+```
 
+---
+
+## 🚀 Ejecución del Proyecto
+
+1. Colocar los archivos de texto a procesar dentro de un directorio.  
+2. Ejecutar el programa con:
+
+```bash
+python main.py <ruta_del_directorio>
 ```
-Á U % K V  ́ A @ U @
-  ́  ́ & @ V  ́ [ % U  ́
-V B [ L S  ́ 8 T L N
-% ] ; L  ́ V U  ́ V ]
-Á T M 8 [ % ; L  ́  ́
+
+### Ejemplo:
+```bash
+python main.py ./archivos
 ```
+
+Se generarán los resultados en las carpetas:
+
+- 📁 **codificado/** → Archivos codificados  
+- 📁 **decodificado/** → Archivos decodificados  
+- 📁 **planillas/** → Reportes en Excel con métricas  
+
+---
+
+## 🧠 Etapas del Proyecto
+
+### **ETAPA 1: Calcular probabilidades de ocurrencia de caracteres**
+
+**Procedimiento:**
+- Recopilar datos: texto, imágenes, audio, etc.  
+- Contabilizar la frecuencia de cada carácter (diccionario o tabla).  
+- Calcular probabilidades dividiendo la frecuencia de cada carácter por el total de caracteres.  
+
+**Tipos de caracteres:**
+- Letras (mayúsculas y minúsculas)
+- Dígitos (0–9)
+- Espacios
+- Signos de puntuación
+- Caracteres especiales
+
+**Registro necesario:**
+- Total de caracteres leídos  
+- Totales parciales y probabilidades de ocurrencia  
+
+**Fases sugeridas:**
+1. **Fase 1:** Fórmulas de Excel (ej. `=LARGO()`)  
+2. **Fase 2:** Macro en VBA  
+3. **Fase 3:** Automatización avanzada en Python  
+
+---
+
+### **ETAPA 2: Evaluar algoritmos de compresión**
+
+**Algoritmos:**
+- **Huffman:** Códigos de longitud variable eficientes para distribuciones sesgadas.  
+- **Shannon-Fano:** Similar a Huffman, con otra construcción de árbol.  
+- **Lempel-Ziv (LZ77):** Usa diccionario y codificación de longitud variable.  
+
+**Métricas de eficiencia:**
+- Tasa de compresión (Compression Ratio)  
+- Longitud media del código (L)  
+- Redundancia  
+- Tiempos de codificación y decodificación  
+
+**Otros factores:**
+- Relación de compresión (tamaño comprimido vs. original)  
+- Complejidad computacional  
+- Implementación y facilidad de uso  
+
+---
+
+## 📊 Resultados Generados
+
+- **Planillas de símbolos:** cantidad, probabilidad, entropía, información mutua  
+- **Reportes de codificación:** longitud promedio, eficiencia y tamaño de salida  
+- **Archivo de promedios:** resumen general con las métricas de todos los archivos procesados  
+
+---
+
+## 💡 Recomendaciones
+
+- Usar archivos en **codificación UTF-8**  
+- Mantener las carpetas `codificado/`, `decodificado/` y `planillas/` limpias antes de cada ejecución  
+- Revisar los reportes Excel para comparar resultados entre algoritmos  
